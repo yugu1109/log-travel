@@ -1,0 +1,44 @@
+<div class="container">
+  <div class="row">
+    <div class="col-md-2">
+      <h4 class="font-weight-bold my-4 bg-light">ログ一覧</h4>
+    </div>
+    <div class="col-md-7 offset-md-1"></div>
+    <div class="col-md-2">
+      <%= link_to new_log_path do %>
+        <i class="fa-solid fa-plus"></i>
+      <% end %>
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="col">
+
+      <table class='table mx-auto my-5 w-75'>
+        <thead>
+          <tr class="bg-light">
+            <th>タイトル</th>
+            <th>旅行先</th>
+            <th>投稿者</th>
+          </tr>
+        </thead>
+
+        <% @logs.each do |log| %>
+
+        <tbody>
+          <tr>
+            <td><%= log.title %></td>
+            <td><%= log.location %></td>
+            <td><%= link_to user_path(user.id) do %>
+                <%= log.name %>
+                <% end %></td>
+          </tr>
+        </tbody>
+
+        <% end %>
+
+      </table>
+      <%= paginate @logs, class: "pagination" %>
+    </div>
+  </div>
+</div>

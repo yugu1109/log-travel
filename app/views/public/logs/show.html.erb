@@ -1,0 +1,53 @@
+<div class="container">
+  <div class="row">
+    <div class="col-mg-2">
+      <h4 class="font-weight-bold my-4 bg-light">ログ詳細</h4>
+    </div>
+  </div>
+  <div class="row">
+
+    <div class="col-lg-4">
+      <%= image_tag @log.get_image, width: 300, height: 200 %>
+    </div>
+
+    <div class="col-lg-8">
+
+      <table>
+        <tr>
+　　　    <td>タイトル</td>
+　　　    <td><%= @log.title %></td>
+　　　  </tr>
+        <tr>
+　　　    <td>旅行先</td>
+　　　    <td><%= @log.location %></td>
+　　　  </tr>
+        <tr>
+　　　    <td>旅行日</td>
+　　　    <td><%= @log.date %></td>
+　　　  </tr>
+
+物価
+治安
+食事
+投稿者
+
+　　　  <tr>
+　　　    <td>内容</td>
+　　　    <td><%= @log.body %></td>
+　　　  </tr>
+
+
+　　　  <tr>
+　　　    <td class="font-weight-bold">販売ステータス</td>
+　　　    <td class="<%= @item.is_active? ? 'text-success font-weight-bold' : 'text-muted font-weight-bold' %> "><%= @item.status %></td>
+　　　  </tr>
+　　　</table>
+
+　　</div>
+  </div>
+</div>
+
+　　<div class="text-center">
+　　  <%= link_to "編集する",edit_log_path(@log.id),class: "btn btn-success" %>
+　　</div>
+

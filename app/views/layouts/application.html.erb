@@ -6,11 +6,62 @@
     <%= csrf_meta_tags %>
     <%= csp_meta_tag %>
 
+    <script src="https://kit.fontawesome.com/f1ce1e6c42.js" crossorigin="anonymous"></script>
     <%= stylesheet_link_tag 'application', media: 'all', 'data-turbolinks-track': 'reload' %>
+    <%= stylesheet_pack_tag 'application', media: 'all', 'data-turbolinks-track': 'reload' %>
     <%= javascript_pack_tag 'application', 'data-turbolinks-track': 'reload' %>
   </head>
 
-  <body>
+  <body class="d-flex flex-column vh-100 ">
+  <header class="border-bottom">
+  <div class="container-fluid">
+      <div class="row">
+          <div class="col-md-4 d-flex align-logss-center">
+              <a class="navbar-brand" href="/" ><span>LogTravel</span></a>
+          </div>
+          <div class="col-md-2 text-center d-flex align-items-center">
+              <% if user_signed_in? %>
+              <strong class="w-100">ようこそ、<%= current_user.name%>さん!</strong>
+              <%end%>
+          </div>
+          <div class="col-md-6">
+              <div class="d-flex flex-column align-logs-end mt-3">
+  <nav class="navbar navbar-expand-lg p-0">
+  <ul class="nav">
+      <% if user_signed_in? %>
+          <li class="nav-item"><%= link_to "マイページ", user_path(current_user), class: "nav-link btn btn-outline-secondary text-dark mx-3" %></li>
+          <li class="nav-item"><%= link_to "ログ一覧", logs_path, class: "nav-link btn btn-outline-secondary text-dark mx-3" %></li>
+          <li class="nav-item"><%= link_to "ログアウト", destroy_user_session_path, method: :delete, class: "nav-link btn btn-outline-secondary text-dark ml-3" %></li>
+      <% elsif admin_signed_in? %>
+          <li class="nav-item"><%= link_to "ログ一覧", admin_logs_path, class: "nav-link btn btn-outline-secondary text-dark mx-3" %></li>
+          <li class="nav-item"><%= link_to "ユーザー一覧", admin_users_path, class: "nav-link btn btn-outline-secondary text-dark mx-3" %></li>
+          <li class="nav-item"><%= link_to "ログアウト", destroy_admin_session_path, method: :delete, class: "nav-link btn btn-outline-secondary text-dark ml-3" %></li>
+      <% else %>
+          <li class="nav-item"><%= link_to "Top", root_path, class: "nav-link btn btn-outline-secondary text-dark mx-3" %></li>
+          <li class="nav-item"><%= link_to "About", about_path, class: "nav-link btn btn-outline-secondary text-dark mx-3" %></li>
+          <li class="nav-item"><%= link_to "新規登録", new_user_registration_path, class: "nav-link btn btn-outline-secondary text-dark mx-3" %></li>
+          <li class="nav-item"><%= link_to "ログイン", new_user_session_path, class: "nav-link btn btn-outline-secondary text-dark ml-3" %></li>
+      <% end %>
+  </ul>
+</nav>
+<form class="form-inline mt-2 mb-3">
+                            <div class="input-group">
+                                <input class="form-control" type="search" placeholder="Search" aria-label="Search">
+                                <div class="input-group-append">
+                                    <button class="btn btn-outline-secondary" type="submit">
+                                        <i class="bi bi-search"></i>
+                                    </button>
+                                </div>
+                            </div>
+                        </form>
+                        </div>
+                        </div>
+                    </div>
+                </div>
+            </header>
+            <main class="mb-auto">
+              <p class="mx-auto" id="notice"><%= notice %></p>
     <%= yield %>
+    </main>
   </body>
 </html>

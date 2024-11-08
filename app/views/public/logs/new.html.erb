@@ -1,0 +1,48 @@
+<div class="container">
+  <div class="row">
+    <div class="col-mg-2">
+      <h4 class="font-weight-bold my-4 bg-light">ログ投稿</h4>
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="col">
+
+      <%= form_with model: @log, url: logs_path do |f| %>
+
+        <table class='mx-auto'>
+          <tr>
+            <td>旅行画像</td>
+            <td><%= f.file_field :image, accept: "image/*" %></td>
+          </tr>
+          <tr>
+            <td>タイトル</td>
+            <td><%= f.text_field :title %></td>
+          </tr>
+          <tr>
+          　<td>旅行先</td>
+          　<td><%= f.text_field :location %></td>
+       　 </tr>
+      　　<tr>
+      　　　<td>旅行日</td>
+      　　　<td><%= f.text_field :date %></td>
+          </tr>
+
+          物価
+          治安
+          食事
+
+          <tr>
+            <td>内容</td>
+            <td><%= f.text_area :body %></td>
+          </tr>
+       
+        </table>
+
+          <div class="text-center"><%= f.submit '新規登録',class: "btn btn-success" %></div>
+
+      <% end %>
+
+    </div>
+  </div>
+</div>

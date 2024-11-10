@@ -7,47 +7,58 @@
   <div class="row">
 
     <div class="col-lg-4">
-      <%= image_tag @log.get_image, width: 300, height: 200 %>
+      <% if @log.image.attached? %>
+        <%= image_tag @log.get_image, width: 300, height: 200 %>
+      <% else %>
+        <%= image_tag 'no_image', size: "200x200" %>
+      <% end %>
     </div>
 
     <div class="col-lg-8">
 
       <table>
         <tr>
-　　　    <td>タイトル</td>
-　　　    <td><%= @log.title %></td>
-　　　  </tr>
+          <td>タイトル</td>
+          <td><%= @log.title %></td>
+        </tr>
         <tr>
-　　　    <td>旅行先</td>
-　　　    <td><%= @log.location %></td>
-　　　  </tr>
+          <td>旅行先</td>
+          <td><%= @log.location %></td>
+        </tr>
         <tr>
-　　　    <td>旅行日</td>
-　　　    <td><%= @log.date %></td>
-　　　  </tr>
+          <td>旅行日</td>
+          <td><%= @log.date %></td>
+        </tr>
+        <tr>
+          <td>物価</td>
+          <td><%= @log.price_i18n %></td>
+        </tr>
+        <tr>
+          <td>治安</td>
+          <td><%= @log.public_order_i18n %></td>
+        </tr>
+        <tr>
+          <td>食事</td>
+          <td><%= @log.meal_i18n %></td>
+        </tr>
+        <tr>
+          <td>投稿者</td>
+          <td><%= link_to @log.user.name, user_path(@log.user.id) %></td>
+        </tr>
+        <tr>
+          <td>内容</td>
+          <td><%= @log.body %></td>
+        </tr>
 
-物価
-治安
-食事
-投稿者
+      </table>
 
-　　　  <tr>
-　　　    <td>内容</td>
-　　　    <td><%= @log.body %></td>
-　　　  </tr>
-
-
-　　　  <tr>
-　　　    <td class="font-weight-bold">販売ステータス</td>
-　　　    <td class="<%= @item.is_active? ? 'text-success font-weight-bold' : 'text-muted font-weight-bold' %> "><%= @item.status %></td>
-　　　  </tr>
-　　　</table>
-
-　　</div>
+    </div>
   </div>
 </div>
 
-　　<div class="text-center">
-　　  <%= link_to "編集する",edit_log_path(@log.id),class: "btn btn-success" %>
-　　</div>
+<div class="text-center">
+  <% if @log.user == current_user %>
+    <%= link_to "編集する",edit_log_path(@log.id),class: "btn btn-success" %>
+  <% end %>
+</div>
 

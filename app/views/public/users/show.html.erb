@@ -6,37 +6,54 @@
   </div>
   <div class="row">
 
-    <div class="col-lg-4">
-      <%= image_tag @user.get_image, width: 300, height: 200 %>
-    </div>
-
     <div class="col-lg-8">
 
       <table>
         <tr>
-　　　    <td>名前</td>
-　　　    <td><%= @user.name %></td>
-　　　  </tr>
+          <td>名前</td>
+          <td><%= @user.name %></td>
+        </tr>
         <tr>
-　　　    <td>年齢</td>
-　　　    <td><%= @user.age %></td>
-　　　  </tr>
+          <td>年齢</td>
+          <td><%= @user.age %>歳</td>
+        </tr>
         <tr>
-　　　    <td>性別</td>
-　　　    <td><%= @user.gender %></td>
-　　　  </tr>
-　　　  <tr>
-　　　    <td>会員ステータス</td>
-　　　    <td class="<%= @user.is_active? ? 'text-success font-weight-bold' : 'text-muted font-weight-bold' %> "><%= @user.user_status %></td>
-　　　  </tr>
-　　　</table>
+          <td>性別</td>
+          <td class="<%= @user.gender ? 'text-success font-weight-bold' : 'text-muted font-weight-bold' %>"><%= @user.status %></td>
+        </tr>
+      </table>
 
-　　</div>
+      <table class='table mx-auto my-5 w-75'>
+        <thead>
+          <tr class="bg-light">
+            <th>タイトル</th>
+            <th>旅行先</th>
+            <th>投稿者</th>
+          </tr>
+        </thead>
+
+        <% @logs.each do |log| %>
+
+          <tbody>
+            <tr>
+              <td><%= link_to log.title, log_path(log.id) %></td>
+              <td><%= log.location %></td>
+              <td><%= log.user.name %></td>
+            </tr>
+          </tbody>
+
+        <% end %>
+
+      </table>
+
+    </div>
   </div>
 </div>
 
-　　<div class="text-center">
-　　  <%= link_to "編集する",edit_user_path(@user.id),class: "btn btn-success" %>
-　　</div>
+<div class="text-center">
+  <% if @user == current_user %>
+    <%= link_to "編集する",edit_user_path(@user.id),class: "btn btn-success" %>
+  <% end %>
+</div>
 
 

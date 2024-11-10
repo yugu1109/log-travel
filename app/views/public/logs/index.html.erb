@@ -27,11 +27,9 @@
 
         <tbody>
           <tr>
-            <td><%= log.title %></td>
+            <td><%= link_to log.title, log_path(log.id) %></td>
             <td><%= log.location %></td>
-            <td><%= link_to user_path(user.id) do %>
-                <%= log.name %>
-                <% end %></td>
+            <td><%= link_to log.user.name,user_path(log.user.id) %></td>
           </tr>
         </tbody>
 

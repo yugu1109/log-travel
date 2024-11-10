@@ -1,2 +1,70 @@
-<h1>Public::Logs#edit</h1>
-<p>Find me in app/views/public/logs/edit.html.erb</p>
+<div class="container">
+  <div class="row">
+    <div class="col-mg-2">
+      <h4 class="font-weight-bold my-4 bg-light">ログ編集</h4>
+    </div>
+  </div>
+
+  <% if @log.errors.any? %>
+    <%= @log.errors.count %>件のエラーが発生しました
+    <ul>
+      <% @log.errors.full_messages.each do |message| %>
+        <li><%= message %></li>
+      <% end %>
+    </ul>
+  <% end %>
+
+  <div class="row">
+    <div class="col">
+
+      <%= form_with model: @log, url: log_path(@log.id) do |f| %>
+
+        <table class='mx-auto'>
+          <tr>
+            <td>旅行画像</td>
+            <td><%= f.file_field :image, accept: "image/*" %></td>
+          </tr>
+          <tr>
+            <td>タイトル</td>
+            <td><%= f.text_field :title %></td>
+          </tr>
+          <tr>
+            <td>旅行先</td>
+            <td><%= f.text_field :location %></td>
+          </tr>
+          <tr>
+            <td>旅行日</td>
+            <td><%= f.text_field :date %></td>
+          </tr>
+          <tr>
+            <td class="font-weight-bold">物価</td>
+            <td><%= f.select :price, Log.prices.keys.map {|k| [I18n.t("enums.log.price.#{k}"), k]} %></td>
+          </tr>
+          <tr>
+            <td class="font-weight-bold">治安</td>
+            <td><%= f.select :public_order, Log.public_orders.keys.map {|k| [I18n.t("enums.log.public_order.#{k}"), k]} %></td>
+          </tr>
+          <tr>
+            <td class="font-weight-bold">食事</td>
+            <td><%= f.select :meal, Log.meals.keys.map {|k| [I18n.t("enums.log.meal.#{k}"), k]} %></td>
+          </tr>
+          <tr>
+            <td>内容</td>
+            <td><%= f.text_area :body %></td>
+          </tr>
+       
+        </table>
+
+          <% if @log.user == current_user %>
+            <div class="text-center"><%= f.submit '変更を保存',class: "btn btn-success" %></div>
+          <% end %>
+
+          <% if @log.user == current_user %>
+          <div class="text-center"><%= link_to "削除する", log_path(@log.id), class: "btn btn-sm btn-danger", method: :delete, "data-confirm" => "本当に削除しますか？" %></div>
+          <% end %>
+
+      <% end %>
+
+    </div>
+  </div>
+</div>

@@ -1,4 +1,5 @@
 class Admin::LogsController < ApplicationController
+  before_action :authenticate_admin!
 
   def index
     @logs = Log.page(params[:page])

@@ -1,4 +1,6 @@
 class Public::LogsController < ApplicationController
+  before_action :authenticate_user!
+  before_action :is_matching_login_user, only: [:edit, :update, :destroy]
   
   def new
     @log = Log.new
@@ -6,8 +8,12 @@ class Public::LogsController < ApplicationController
 
   def create
     @log = Log.new(log_params)
-    @log.save
-    redirect_to log_path(@log.id)
+    @log.user_id = current_user.id
+    if @log.save
+      redirect_to log_path(@log.id)
+    else
+      render :new
+    end
   end
 
   def index
@@ -15,32 +21,51 @@ class Public::LogsController < ApplicationController
   end
 
   def show
-    @log = Log.find(params[:id])
+    @log = Log.find_by(id: params[:id])
+    unless @log
+      redirect_to logs_path, alert: 'ログが見つかりませんでした'
+    end
   end
 
   def edit
-    @log = Log.find(params[:id])
+    @log = Log.find_by(id: params[:id])
+    unless @log
+      redirect_to logs_path, alert: 'ログが見つかりませんでした'
+    end
   end
 
   def update
-    @log = Log.find(params[:id])
+    @log = Log.find_by(id: params[:id])
+    unless @log
+      redirect_to logs_path, alert: 'ログが見つかりませんでした'
+    end
     if @log.update(log_params)
-     redirect_to log_path(@log.id)
+      redirect_to log_path(@log.id), notice: 'ログが更新されました'
     else
-     render :edit
+      render :edit
     end
   end
 
   def destroy
-    @log = Log.find(params[:id])
-  	@log.destroy
-  	redirect_to logs_path
+    @log = Log.find_by(id: params[:id])
+    unless @log
+      redirect_to logs_path, alert: 'ログが見つかりませんでした'
+    end
+    @log.destroy
+    redirect_to logs_path, notice: 'ログが削除されました'
   end
 
   private
 
   def log_params
-    params.require(:log).permit(:title, :body, :location, :date, :price, :public_order, :meal)
+    params.require(:log).permit(:title, :body, :location, :date, :price, :public_order, :meal, :image)
+  end
+
+  def is_matching_login_user
+    @log = Log.find_by(id: params[:id])
+    unless @log && @log.user_id == current_user.id
+      redirect_to logs_path, alert: 'あなたはこのログを編集できません。'
+    end
   end
 
 end

@@ -7,18 +7,24 @@ class Admin::LogsController < ApplicationController
 
   def show
     @log = Log.find(params[:id])
+    unless @log
+      redirect_to admin_logs_path, alert: 'ログが見つかりませんでした'
+    end
   end
 
   def destroy
-    @log = Log.find(params[:id])
-  	@log.destroy
-  	redirect_to admin_logs_path
+    @log = Log.find_by(id: params[:id])
+    unless @log
+      redirect_to logs_path, alert: 'ログが見つかりませんでした'
+    end
+    @log.destroy
+    redirect_to admin_logs_path, notice: 'ログが削除されました'
   end
 
   private
 
   def log_params
-    params.require(:log).permit(:title, :body, :location, :date, :price, :public_order, :meal)
+    params.require(:log).permit(:title, :body, :location, :date, :price, :public_order, :meal, :image)
   end
   
 end

@@ -6,7 +6,11 @@ class Admin::UsersController < ApplicationController
   end
 
   def show
-    @user = User.find(params[:id])
+    @user = User.find_by(id: params[:id])
+    unless @user
+      redirect_to admin_users_path, alert: "ユーザーが見つかりませんでした"
+    end
+    @logs = @user.logs
   end
 
   def edit

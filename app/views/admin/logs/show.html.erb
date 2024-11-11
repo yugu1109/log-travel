@@ -1,2 +1,66 @@
-<h1>Admin::Logs#show</h1>
-<p>Find me in app/views/admin/logs/show.html.erb</p>
+<div class="container">
+  <div class="row">
+    <div class="col-mg-2">
+      <h4 class="font-weight-bold my-4 bg-light">ログ詳細</h4>
+    </div>
+  </div>
+  <div class="row">
+
+    <div class="col-lg-4">
+      <% if @log.image.attached? %>
+        <%= image_tag @log.get_image, width: 300, height: 200 %>
+      <% else %>
+        <%= image_tag 'no_image', size: "200x200" %>
+      <% end %>
+    </div>
+
+    <div class="col-lg-8">
+
+      <table>
+        <tr>
+          <td>ログID</td>
+          <td><%= @log.id %></td>
+        </tr>
+        <tr>
+          <td>タイトル</td>
+          <td><%= @log.title %></td>
+        </tr>
+        <tr>
+          <td>旅行先</td>
+          <td><%= @log.location %></td>
+        </tr>
+        <tr>
+          <td>旅行日</td>
+          <td><%= @log.date %></td>
+        </tr>
+        <tr>
+          <td>物価</td>
+          <td><%= @log.price_i18n %></td>
+        </tr>
+        <tr>
+          <td>治安</td>
+          <td><%= @log.public_order_i18n %></td>
+        </tr>
+        <tr>
+          <td>食事</td>
+          <td><%= @log.meal_i18n %></td>
+        </tr>
+        <tr>
+          <td>投稿者</td>
+          <td><%= link_to @log.user.name, admin_user_path(@log.user.id) %></td>
+        </tr>
+        <tr>
+          <td>内容</td>
+          <td><%= @log.body %></td>
+        </tr>
+
+      </table>
+
+    </div>
+  </div>
+</div>
+
+<div class="text-center">
+  <%= link_to "削除する", admin_log_path(@log.id), class: "btn btn-sm btn-danger", method: :delete, "data-confirm" => "本当に削除しますか？" %>
+</div>
+

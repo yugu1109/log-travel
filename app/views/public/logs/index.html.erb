@@ -20,6 +20,8 @@
             <th>タイトル</th>
             <th>旅行先</th>
             <th>投稿者</th>
+            <th>コメント</th>
+            <th>いいね</th>
           </tr>
         </thead>
 
@@ -30,6 +32,8 @@
             <td><%= link_to log.title, log_path(log.id) %></td>
             <td><%= log.location %></td>
             <td><%= link_to log.user.name,user_path(log.user.id) %></td>
+            <td><%= link_to "#{log.log_comments.count} コメント", log_path(log.id) %></td>
+            <td><%= link_to "#{log.favorites.count} いいね", log_path(log.id) %></td>
           </tr>
         </tbody>
 

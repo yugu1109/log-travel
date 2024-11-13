@@ -25,6 +25,7 @@ class Public::LogsController < ApplicationController
     unless @log
       redirect_to logs_path, alert: 'ログが見つかりませんでした'
     end
+    @log_comment = LogComment.new
   end
 
   def edit

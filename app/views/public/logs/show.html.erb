@@ -62,3 +62,36 @@
   <% end %>
 </div>
 
+<div class="text-center">
+  <p>コメント件数：<%= @log.log_comments.count %></p>
+  <% @log.log_comments.each do |log_comment| %>
+    <%= log_comment.user.name %>
+    <%= log_comment.created_at.strftime('%Y/%m/%d') %><%= log_comment.comment %>
+    <% if log_comment.user == current_user %>
+      <%= link_to "削除", log_log_comment_path(log_comment.log, log_comment), method: :delete %>
+    <% end %>
+  <% end %>
+</div>
+<div class="text-center">
+  <%= form_with model: [@log, @log_comment] do |f| %>
+    <%= f.text_area :comment, rows: '5', placeholder: "コメントをここに" %>
+    <%= f.submit "送信する" %>
+  <% end %>
+</div>
+
+<div class="text-center">
+  <% if @log.favorited_by?(current_user) %>
+    <p>
+      <%= link_to log_favorites_path(@log), method: :delete do %>
+        ♥<%= @log.favorites.count %> いいね
+      <% end %>
+    </p>
+    <% else %>
+    <p>
+      <%= link_to log_favorites_path(@log), method: :post do %>
+        ♡<%= @log.favorites.count %> いいね
+      <% end %>
+    </p>
+  <% end %>
+</div>
+

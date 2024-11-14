@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2024_11_13_035404) do
+ActiveRecord::Schema.define(version: 2024_11_14_052659) do
 
   create_table "active_storage_attachments", force: :cascade do |t|
     t.string "name", null: false
@@ -67,6 +67,13 @@ ActiveRecord::Schema.define(version: 2024_11_13_035404) do
     t.datetime "updated_at", precision: 6, null: false
   end
 
+  create_table "log_tags", force: :cascade do |t|
+    t.integer "log_id"
+    t.integer "tag_id"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+  end
+
   create_table "logs", force: :cascade do |t|
     t.integer "user_id", null: false
     t.string "title", null: false
@@ -76,6 +83,12 @@ ActiveRecord::Schema.define(version: 2024_11_13_035404) do
     t.integer "price", default: 0, null: false
     t.integer "public_order", default: 0, null: false
     t.integer "meal", default: 0, null: false
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+  end
+
+  create_table "tags", force: :cascade do |t|
+    t.string "name"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
   end

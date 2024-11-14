@@ -62,6 +62,12 @@
     </header>
     <main class="mb-auto">
       <p class="mx-auto" id="notice"><%= notice %></p>
+      <div class="container">
+        <div class="row justify-content-start mb-2">
+          <div class="mr-3"><%= render 'public/searches/form' %></div>
+          <div class="mr-3"><%= render "public/searches/tag_form" %></div>
+        </div>
+      </div>
       <%= yield %>
     </main>
   </body>

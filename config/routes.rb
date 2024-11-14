@@ -14,6 +14,7 @@ Rails.application.routes.draw do
     get "/about" => "homes#about", as: "about"
     get "users/unsubscribe" => "users#unsubscribe"
     patch "users/withdraw" => "users#withdraw"
+    get '/search', to: 'searches#search'
     resources :users, only: [:show, :edit, :update, :destroy]
     resources :logs, only: [:new, :index, :show, :create, :edit, :update, :destroy] do
       resource :favorites, only: [:create, :destroy]

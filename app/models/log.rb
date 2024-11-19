@@ -21,10 +21,10 @@ class Log < ApplicationRecord
   enum meal: { great_meal: 0, good_meal: 1, ordinarily_meal: 2, bad_meal: 3, worst_meal: 4 }
 
   def favorited_by?(user)
-    favorites.exists?(user_id: user.id)
+    favorites.where(user_id: user.id).exists?
   end
 
-  def save_tags(savebook_tags)
+  def save_tags(savelog_tags)
     current_tags = self.tags.pluck(:name) unless self.tags.nil?
     old_tags = current_tags - savelog_tags
     new_tags = savelog_tags - current_tags

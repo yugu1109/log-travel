@@ -3,5 +3,59 @@
   <%= render 'public/users/index', users: @records %>
 <% elsif @model == 'log' || @model == 'tag' %>
 	<h3>Logs search for "<%= @content %>"</h3>
-  <%= render 'public/logs/index', logs: @records %>
+
+  <div class="container">
+  <div class="row">
+    <div class="col-md-2">
+      <h4 class="font-weight-bold my-4 bg-light">ログ一覧</h4>
+    </div>
+    <div class="col-md-7 offset-md-1"></div>
+    <div class="col-md-2">
+      <%= link_to new_log_path do %>
+        <i class="fa-solid fa-plus"></i>
+      <% end %>
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="col">
+
+      <table class='table mx-auto my-5 w-75'>
+        <thead>
+          <tr class="bg-light">
+            <th>タイトル</th>
+            <th>タグ</th>
+            <th>旅行先</th>
+            <th>投稿者</th>
+            <th>コメント</th>
+            <th>いいね</th>
+            <th>評価</th>
+          </tr>
+        </thead>
+
+        <% @records.each do |log| %>
+
+        <tbody>
+          <tr>
+            <td><%= link_to log.title, log_path(log.id) %></td>
+            <td>
+              <% log.tags.each do |tag| %>
+                <li style="list-style: none;"><%= link_to tag.name, search_path(content: tag.name, model:"tag", method: "perfect") %></li>
+              <% end %>
+            </td>
+            <td><%= log.location %></td>
+            <td><%= link_to log.user.name,user_path(log.user.id) %></td>
+            <td><%= link_to "#{log.log_comments.count} コメント", log_path(log.id) %></td>
+            <td><%= link_to "#{log.favorites.count} いいね", log_path(log.id) %></td>
+            <td><%= render "public/logs/static_rate", log: log %></td>
+          </tr>
+        </tbody>
+
+        <% end %>
+
+      </table>
+    </div>
+  </div>
+</div>
+
 <% end %>

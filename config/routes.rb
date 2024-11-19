@@ -15,7 +15,11 @@ Rails.application.routes.draw do
     get "users/unsubscribe" => "users#unsubscribe"
     patch "users/withdraw" => "users#withdraw"
     get '/search', to: 'searches#search'
-    resources :users, only: [:show, :edit, :update, :destroy]
+    resources :users, only: [:show, :edit, :update, :destroy] do
+      resource :relationships, only: [:create, :destroy]
+      get 'followings' => 'relationships#followings', as: 'followings'
+      get 'followers' => 'relationships#followers', as: 'followers'
+    end
     resources :logs, only: [:new, :index, :show, :create, :edit, :update, :destroy] do
       resource :favorites, only: [:create, :destroy]
       resources :log_comments, only: [:create, :destroy]

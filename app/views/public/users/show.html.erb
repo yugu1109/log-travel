@@ -6,7 +6,7 @@
   </div>
   <div class="row">
 
-    <div class="col-lg-8">
+    <div class="col-lg-2">
 
       <table>
         <tr>
@@ -21,7 +21,18 @@
           <td>性別</td>
           <td class="<%= @user.gender ? 'text-success font-weight-bold' : 'text-muted font-weight-bold' %>"><%= @user.status %></td>
         </tr>
+        <tr>
+          <td>フォロー</td>
+          <td><%= link_to @user.followings.count, user_followings_path(@user.id) %></td>
+        </tr>
+        <tr>
+          <td>フォロワー</td>
+          <td><%= link_to @user.followers.count, user_followers_path(@user.id) %></td>
+        </tr>
       </table>
+
+    </div>
+    <div class="col-lg-10">
 
       <table class='table mx-auto my-5 w-75'>
         <thead>
@@ -29,6 +40,7 @@
             <th>タイトル</th>
             <th>旅行先</th>
             <th>投稿者</th>
+            <th>評価</th>
             <th>コメント</th>
             <th>いいね</th>
           </tr>
@@ -41,6 +53,7 @@
               <td><%= link_to log.title, log_path(log.id) %></td>
               <td><%= log.location %></td>
               <td><%= log.user.name %></td>
+              <td><%= render "public/logs/static_rate", log: log %></td>
               <td><%= link_to "#{log.log_comments.count} コメント", log_path(log.id) %></td>
               <td><%= link_to "#{log.favorites.count} いいね", log_path(log.id) %></td>
             </tr>
@@ -55,6 +68,7 @@
 </div>
 
 <div class="text-center">
+  <%= render "public/relationships/btn", user: @user %>
   <% if @user == current_user %>
     <%= link_to "編集する",edit_user_path(@user.id),class: "btn btn-success" %>
   <% end %>

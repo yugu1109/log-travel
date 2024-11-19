@@ -14,14 +14,18 @@
   <div class="row">
     <div class="col">
 
+      <%= link_to "新しい順", logs_path(sort: 'created_at DESC') %> | <%= link_to "評価の高い順", logs_path(sort: 'rate DESC') %>
+
       <table class='table mx-auto my-5 w-75'>
         <thead>
           <tr class="bg-light">
             <th>タイトル</th>
+            <th>タグ</th>
             <th>旅行先</th>
             <th>投稿者</th>
             <th>コメント</th>
             <th>いいね</th>
+            <th>評価</th>
           </tr>
         </thead>
 
@@ -30,10 +34,16 @@
         <tbody>
           <tr>
             <td><%= link_to log.title, log_path(log.id) %></td>
+            <td>
+              <% log.tags.each do |tag| %>
+                <li style="list-style: none;"><%= link_to tag.name, search_path(content: tag.name, model:"tag", method: "perfect") %></li>
+              <% end %>
+            </td>
             <td><%= log.location %></td>
             <td><%= link_to log.user.name,user_path(log.user.id) %></td>
             <td><%= link_to "#{log.log_comments.count} コメント", log_path(log.id) %></td>
             <td><%= link_to "#{log.favorites.count} いいね", log_path(log.id) %></td>
+            <td><%= render "static_rate", log: log %></td>
           </tr>
         </tbody>
 

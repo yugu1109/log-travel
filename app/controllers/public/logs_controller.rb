@@ -9,7 +9,9 @@ class Public::LogsController < ApplicationController
   def create
     @log = Log.new(log_params)
     @log.user_id = current_user.id
+    tag_list = params[:log][:tag_name].split(',')
     if @log.save
+      @log.save_tags(tag_list)
       redirect_to log_path(@log.id)
     else
       render :new
@@ -17,7 +19,7 @@ class Public::LogsController < ApplicationController
   end
 
   def index
-    @logs = Log.page(params[:page])
+    @logs = Log.order(params[:sort]).page(params[:page])
   end
 
   def show
@@ -59,7 +61,7 @@ class Public::LogsController < ApplicationController
   private
 
   def log_params
-    params.require(:log).permit(:title, :body, :location, :date, :price, :public_order, :meal, :image)
+    params.require(:log).permit(:title, :body, :location, :date, :price, :public_order, :meal, :image, :rate)
   end
 
   def is_matching_login_user

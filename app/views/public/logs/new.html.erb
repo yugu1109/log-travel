@@ -29,6 +29,10 @@
             <td><%= f.text_field :title %></td>
           </tr>
           <tr>
+            <td>タグ</td>
+            <td><%= f.text_field :tag_name, class: 'form-control log_tag_name' %></td>
+          </tr>
+          <tr>
             <td>旅行先</td>
             <td><%= f.text_field :location %></td>
           </tr>
@@ -51,6 +55,35 @@
           <tr>
             <td>内容</td>
             <td><%= f.text_area :body %></td>
+          </tr>
+          <tr>
+            <td><%= f.label :評価 %></td>
+            <td><% if @log.id.nil? %>
+                  <div class="form-group" id="star">
+                    <%= f.hidden_field :rate, id: :review_star, class: 'form-control' %>
+                    <div id="post_raty"></div>
+                  </div>
+                  <script>
+                    $(document).on('turbolinks:load', function() {
+                      let elem = document.querySelector('#post_raty');
+                      if (elem == null) return;
+        
+                      elem.innerHTML = ""
+                      let opt = {  
+                        starOn: "<%= asset_path('star-on.png') %>",
+                        starOff: "<%= asset_path('star-off.png') %>",
+                        starHalf: "<%= asset_path('star-half.png') %>",
+                        scoreName: 'log[rate]',
+                      };
+                      raty(elem, opt);
+                     });
+                  </script>
+                <% else %>
+                  <div class="form-group">
+                    <%= render "static_rate", log: @log %>
+                  </div>
+                <% end %>
+            </td>
           </tr>
        
         </table>

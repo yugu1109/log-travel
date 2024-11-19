@@ -7,6 +7,7 @@ class CreateLogs < ActiveRecord::Migration[6.1]
       t.text :body,            null: false
       t.string :location,      null: false
       t.string :date,          null: false
+      t.float :rate,           null: false
       t.integer :price,        null: false, default: 0
       t.integer :public_order, null: false, default: 0
       t.integer :meal,         null: false, default: 0

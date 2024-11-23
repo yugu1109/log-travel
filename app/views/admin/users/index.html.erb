@@ -1,16 +1,19 @@
-<div class="container">
-  <div class="row">
-    <div class="col-md-2">
-      <h4 class="font-weight-bold my-4 bg-light">ユーザー一覧</h4>
+<div class="container my-5">
+  <!-- ヘッダー -->
+  <div class="row mb-4">
+    <div class="col-12">
+      <h4 class="font-weight-bold text-center bg-light py-3 shadow-sm rounded">ユーザー一覧</h4>
     </div>
   </div>
 
-  <div class="row">
-    <div class="col">
+  <!-- ユーザーリスト -->
+  <div class="row justify-content-center">
+    <div class="col-lg-10 col-md-12">
 
-      <table class='table mx-auto my-5 w-75'>
-        <thead>
-          <tr class="bg-light">
+      <!-- テーブル -->
+      <table class="table table-bordered table-hover mx-auto w-100 shadow-sm">
+        <thead class="thead-dark">
+          <tr>
             <th>会員ID</th>
             <th>名前</th>
             <th>年齢</th>
@@ -18,25 +21,25 @@
             <th>会員ステータス</th>
           </tr>
         </thead>
-
-        <% @users.each do |user| %>
-
         <tbody>
-          <tr>
-            <td><%= user.id %></td>
-            <td><%= link_to user.name, admin_user_path(user.id) %></td>
-            <td><%= user.age %>歳</td>
-            <td class="<%= user.gender ? 'text-success font-weight-bold' : 'text-muted font-weight-bold' %>"><%= user.status %></td>
-            <td class="<%= user.is_active ? 'text-success font-weight-bold' : 'text-muted font-weight-bold' %>"><%= user.is_active_status %></td>
-          </tr>
+          <% @users.each do |user| %>
+            <tr>
+              <td><%= user.id %></td>
+              <td><%= link_to user.name, admin_user_path(user.id), class: "text-primary font-weight-bold" %></td>
+              <td><%= user.age %>歳</td>
+              <td class="<%= user.gender ? 'text-success font-weight-bold' : 'text-muted font-weight-bold' %>"><%= user.gender ? '男性' : '女性' %></td>
+              <td class="<%= user.is_active ? 'text-success font-weight-bold' : 'text-muted font-weight-bold' %>"><%= user.is_active ? '有効' : '無効' %></td>
+            </tr>
+          <% end %>
         </tbody>
-
-        <% end %>
-
       </table>
-      <%= paginate @users, class: "pagination" %>
+
+      <!-- ページネーション -->
+      <div class="d-flex justify-content-center mt-4">
+        <%= paginate @users, class: "pagination pagination-lg" %>
+      </div>
+      
     </div>
   </div>
 </div>
-
 

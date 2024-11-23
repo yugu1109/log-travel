@@ -1,63 +1,83 @@
-<div class="container">
+<div class="container mt-4">
   <div class="row">
-    <div class="col-mg-2">
-      <h4 class="font-weight-bold my-4 bg-light">ユーザー詳細</h4>
+    <div class="col-12">
+      <h4 class="font-weight-bold text-center bg-light py-2">ユーザー詳細</h4>
     </div>
   </div>
-  <div class="row">
-
-    <div class="col-lg-8">
-
-      <table>
-        <tr>
-          <td>会員ID</td>
-          <td><%= @user.id %></td>
-        </tr>
-        <tr>
-          <td>名前</td>
-          <td><%= @user.name %></td>
-        </tr>
-        <tr>
-          <td>年齢</td>
-          <td><%= @user.age %>歳</td>
-        </tr>
-        <tr>
-          <td>性別</td>
-          <td class="<%= @user.gender ? 'text-success font-weight-bold' : 'text-muted font-weight-bold' %>"><%= @user.status %></td>
-        </tr>
-          <td>会員ステータス</td>
-          <td class="<%= @user.is_active ? 'text-success font-weight-bold' : 'text-muted font-weight-bold' %>"><%= @user.is_active_status %></td>
-      </table>
-
-      <table class='table mx-auto my-5 w-75'>
-        <thead>
-          <tr class="bg-light">
-            <th>タイトル</th>
-            <th>旅行先</th>
-            <th>投稿者</th>
-          </tr>
-        </thead>
-
-        <% @logs.each do |log| %>
-
+  <div class="row my-4">
+    <div class="col-lg-4 col-md-6">
+      <div class="card p-3 shadow-sm">
+        <h5 class="font-weight-bold mb-3">プロフィール</h5>
+        <table class="table table-sm">
           <tbody>
             <tr>
-              <td><%= link_to log.title, admin_log_path(log.id) %></td>
-              <td><%= log.location %></td>
-              <td><%= log.user.name %></td>
+              <td><strong>会員ID</strong></td>
+              <td><%= @user.id %></td>
+            <tr>
+              <td><strong>名前</strong></td>
+              <td><%= @user.name %></td>
+            </tr>
+            <tr>
+              <td><strong>年齢</strong></td>
+              <td><%= @user.age %>歳</td>
+            </tr>
+            <tr>
+              <td><strong>性別</strong></td>
+              <td class="<%= @user.gender ? 'text-success font-weight-bold' : 'text-muted font-weight-bold' %>">
+                <%= @user.status %>
+              </td>
+            </tr>
+            <tr>
+              <td>会員ステータス</td>
+              <td class="<%= @user.is_active ? 'text-success font-weight-bold' : 'text-muted font-weight-bold' %>"><%= @user.is_active_status %></td>
+            </tr>
+            <tr>
+              <td><strong>フォロー数</strong></td>
+              <td><%= @user.followings.count %></td>
+            </tr>
+            <tr>
+              <td><strong>フォロワー数</strong></td>
+              <td><%= @user.followers.count %></td>
             </tr>
           </tbody>
+        </table>
+      </div>
+    </div>
 
-        <% end %>
-
-      </table>
-
+    <div class="col-lg-8 col-md-12">
+      <div class="card p-3 shadow-sm">
+        <h5 class="font-weight-bold mb-4">旅行ログ</h5>
+        <table class="table table-bordered table-hover">
+          <thead class="thead-light">
+            <tr>
+              <th>タイトル</th>
+              <th>旅行先</th>
+              <th>投稿者</th>
+              <th>評価</th>
+              <th>コメント</th>
+              <th>いいね</th>
+            </tr>
+          </thead>
+          <tbody>
+            <% @logs.each do |log| %>
+              <tr>
+                <td><%= link_to log.title, admin_log_path(log.id) %></td>
+                <td><%= log.location %></td>
+                <td><%= log.user.name %></td>
+                <td><%= render "public/logs/static_rate", log: log %></td>
+                <td><%= link_to "#{log.log_comments.count} コメント", admin_log_path(log.id) %></td>
+                <td><%= link_to "#{log.favorites.count} いいね", admin_log_path(log.id) %></td>
+              </tr>
+            <% end %>
+          </tbody>
+        </table>
+      </div>
     </div>
   </div>
-</div>
 
-<div class="text-center">
-  <%= link_to "編集する",edit_admin_user_path(@user.id),class: "btn btn-success" %>
+  <div class="text-center my-4">
+    <%= link_to "編集する", edit_admin_user_path(@user.id), class: "btn btn-success btn-lg" %>
+  </div>
 </div>
 
 

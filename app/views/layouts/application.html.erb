@@ -16,7 +16,7 @@
     <header class="border-bottom">
       <div class="container-fluid">
         <div class="row">
-          <div class="col-md-4 d-flex align-logss-center">
+          <div class="col-md-4 text-center d-flex align-items-center">
             <a class="navbar-brand" href="/" ><span>LogTravel</span></a>
           </div>
           <div class="col-md-2 text-center d-flex align-items-center">
@@ -46,14 +46,6 @@
                 </ul>
               </nav>
               <form class="form-inline mt-2 mb-3">
-                <div class="input-group">
-                  <input class="form-control" type="search" placeholder="Search" aria-label="Search">
-                  <div class="input-group-append">
-                    <button class="btn btn-outline-secondary" type="submit">
-                      <i class="bi bi-search"></i>
-                    </button>
-                  </div>
-                </div>
               </form>
             </div>
           </div>
@@ -63,7 +55,7 @@
     <main class="mb-auto">
       <p class="mx-auto" id="notice"><%= notice %></p>
       <div class="container">
-        <div class="row justify-content-start mb-2">
+        <div class="row justify-content-end mb-2">
           <div class="mr-3"><%= render 'public/searches/form' %></div>
           <div class="mr-3"><%= render "public/searches/tag_form" %></div>
         </div>

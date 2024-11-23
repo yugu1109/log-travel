@@ -1,28 +1,24 @@
 <% if @model == 'user' %>
-	<h3>Users search for "<%= @content %>"</h3>
+	<h3>ユーザー検索結果 "<%= @content %>"</h3>
   <%= render 'public/users/index', users: @records %>
 <% elsif @model == 'log' || @model == 'tag' %>
-	<h3>Logs search for "<%= @content %>"</h3>
+	<h3>ログ検索結果 "<%= @content %>"</h3>
 
-  <div class="container">
+<div class="container my-5">
+
   <div class="row">
-    <div class="col-md-2">
-      <h4 class="font-weight-bold my-4 bg-light">ログ一覧</h4>
-    </div>
-    <div class="col-md-7 offset-md-1"></div>
-    <div class="col-md-2">
-      <%= link_to new_log_path do %>
-        <i class="fa-solid fa-plus"></i>
-      <% end %>
+    <div class="col text-center mb-4">
+      <%= link_to "新しい順", logs_path(sort: 'created_at DESC'), class: "btn btn-outline-primary mx-2" %>
+      <%= link_to "評価の高い順", logs_path(sort: 'rate DESC'), class: "btn btn-outline-primary mx-2" %>
     </div>
   </div>
 
   <div class="row">
     <div class="col">
 
-      <table class='table mx-auto my-5 w-75'>
-        <thead>
-          <tr class="bg-light">
+      <table class='table table-bordered table-hover mx-auto w-75'>
+        <thead class="thead-dark">
+          <tr>
             <th>タイトル</th>
             <th>タグ</th>
             <th>旅行先</th>
@@ -33,27 +29,30 @@
           </tr>
         </thead>
 
-        <% @records.each do |log| %>
-
         <tbody>
-          <tr>
-            <td><%= link_to log.title, log_path(log.id) %></td>
-            <td>
-              <% log.tags.each do |tag| %>
-                <li style="list-style: none;"><%= link_to tag.name, search_path(content: tag.name, model:"tag", method: "perfect") %></li>
-              <% end %>
-            </td>
-            <td><%= log.location %></td>
-            <td><%= link_to log.user.name,user_path(log.user.id) %></td>
-            <td><%= link_to "#{log.log_comments.count} コメント", log_path(log.id) %></td>
-            <td><%= link_to "#{log.favorites.count} いいね", log_path(log.id) %></td>
-            <td><%= render "public/logs/static_rate", log: log %></td>
-          </tr>
+          <% @records.each do |log| %>
+            <tr>
+              <td><%= link_to log.title, log_path(log.id), class: "text-primary" %></td>
+              <td>
+                <ul class="list-unstyled mb-0">
+                  <% log.tags.each do |tag| %>
+                    <li><%= link_to tag.name, search_path(content: tag.name, model: "tag", method: "perfect"), class: "badge badge-secondary" %></li>
+                  <% end %>
+                </ul>
+              </td>
+              <td><%= log.location %></td>
+              <td><%= link_to log.user.name, user_path(log.user.id), class: "text-success" %></td>
+              <td><%= link_to "#{log.log_comments.count} コメント", log_path(log.id), class: "text-info" %></td>
+              <td><%= link_to "#{log.favorites.count} いいね", log_path(log.id), class: "text-danger" %></td>
+              <td><%= render "public/logs/static_rate", log: log %></td>
+            </tr>
+          <% end %>
         </tbody>
 
-        <% end %>
-
       </table>
+
+      <div class="d-flex justify-content-center">
+      </div>
     </div>
   </div>
 </div>

@@ -1,100 +1,99 @@
-<div class="container">
-  <div class="row">
-    <div class="col-mg-2">
-      <h4 class="font-weight-bold my-4 bg-light">ログ詳細</h4>
+<div class="container my-5">
+  <div class="row mb-4">
+    <div class="col">
+    <h4 class="font-weight-bold text-center bg-light py-2">ログ詳細</h4>
     </div>
   </div>
-  <div class="row">
 
-    <div class="col-lg-4">
+  <div class="row">
+    <div class="col-lg-4 text-center mb-4">
       <% if @log.image.attached? %>
-        <%= image_tag @log.get_image, width: 300, height: 200 %>
+        <%= image_tag @log.get_image, class: "img-fluid rounded" %>
       <% else %>
-        <%= image_tag asset_path('no_image.jpg'), size: "200x200" %>
+        <%= image_tag asset_path('no_image.jpg'), size: "200x200", class: "img-fluid rounded" %>
       <% end %>
     </div>
 
     <div class="col-lg-8">
-
-      <table>
-        <tr>
-          <td>タイトル</td>
-          <td><%= @log.title %></td>
-        </tr>
-        <tr>
-          <td>旅行先</td>
-          <td><%= @log.location %></td>
-        </tr>
-        <tr>
-          <td>旅行日</td>
-          <td><%= @log.date %></td>
-        </tr>
-        <tr>
-          <td>物価</td>
-          <td><%= @log.price_i18n %></td>
-        </tr>
-        <tr>
-          <td>治安</td>
-          <td><%= @log.public_order_i18n %></td>
-        </tr>
-        <tr>
-          <td>食事</td>
-          <td><%= @log.meal_i18n %></td>
-        </tr>
-        <tr>
-          <td>投稿者</td>
-          <td><%= link_to @log.user.name, user_path(@log.user.id) %></td>
-        </tr>
-        <tr>
-          <td>内容</td>
-          <td><%= @log.body %></td>
-        </tr>
-        <tr>
-          <td>評価</td>
-          <td><%= render "static_rate", log: @log %></td>
-        </tr>
+      <table class="table table-bordered table-hover">
+        <tbody>
+          <tr>
+            <th>タイトル</th>
+            <td><%= @log.title %></td>
+          </tr>
+          <tr>
+            <th>旅行先</th>
+            <td><%= @log.location %></td>
+          </tr>
+          <tr>
+            <th>旅行日</th>
+            <td><%= @log.date %></td>
+          </tr>
+          <tr>
+            <th>物価</th>
+            <td><%= @log.price_i18n %></td>
+          </tr>
+          <tr>
+            <th>治安</th>
+            <td><%= @log.public_order_i18n %></td>
+          </tr>
+          <tr>
+            <th>食事</th>
+            <td><%= @log.meal_i18n %></td>
+          </tr>
+          <tr>
+            <th>投稿者</th>
+            <td><%= link_to @log.user.name, user_path(@log.user.id), class: "text-success" %></td>
+          </tr>
+          <tr>
+            <th>内容</th>
+            <td><%= @log.body %></td>
+          </tr>
+          <tr>
+            <th>評価</th>
+            <td><%= render "static_rate", log: @log %></td>
+          </tr>
+        </tbody>
       </table>
-
     </div>
   </div>
-</div>
 
-<div class="text-center">
-  <% if @log.user == current_user %>
-    <%= link_to "編集する",edit_log_path(@log.id),class: "btn btn-success" %>
-  <% end %>
-</div>
-
-<div class="text-center">
-  <p>コメント件数：<%= @log.log_comments.count %></p>
-  <% @log.log_comments.each do |log_comment| %>
-    <%= log_comment.user.name %>
-    <%= log_comment.created_at.strftime('%Y/%m/%d') %><%= log_comment.comment %>
-    <% if log_comment.user == current_user %>
-      <%= link_to "削除", log_log_comment_path(log_comment.log, log_comment), method: :delete %>
+  <div class="text-center mt-4">
+    <% if @log.user == current_user %>
+      <%= link_to "編集する", edit_log_path(@log.id), class: "btn btn-success btn-lg" %>
     <% end %>
-  <% end %>
-</div>
-<div class="text-center">
-  <%= form_with model: [@log, @log_comment] do |f| %>
-    <%= f.text_area :comment, rows: '5', placeholder: "コメントをここに" %>
-    <%= f.submit "送信する" %>
-  <% end %>
-</div>
+  </div>
 
-<div class="text-center">
-  <% if @log.favorited_by?(current_user) %>
-    <p>
-      <%= link_to log_favorites_path(@log), method: :delete do %>
-        ♥<%= @log.favorites.count %> いいね
+  <div class="text-center my-5">
+    <h5><%= @log.log_comments.count %> 件のコメント</h5>
+    <% @log.log_comments.each do |log_comment| %>
+      <div class="border p-3 mb-2 rounded">
+        <p><strong><%= log_comment.user.name %></strong> <span class="text-muted"><%= log_comment.created_at.strftime('%Y/%m/%d') %></span></p>
+        <p><%= log_comment.comment %></p>
+        <% if log_comment.user == current_user %>
+          <%= link_to "削除", log_log_comment_path(log_comment.log, log_comment), method: :delete, class: "text-danger" %>
+        <% end %>
+      </div>
+    <% end %>
+  </div>
+
+  <div class="text-center mb-5">
+    <%= form_with model: [@log, @log_comment], class: "w-75 mx-auto" do |f| %>
+      <%= f.text_area :comment, rows: '5', placeholder: "コメントをここに..." , class: "form-control mb-2" %>
+      <%= f.submit "送信する", class: "btn btn-primary btn-lg" %>
+    <% end %>
+  </div>
+
+  <div class="text-center">
+    <% if @log.favorited_by?(current_user) %>
+      <%= link_to log_favorites_path(@log), method: :delete, class: "btn btn-danger btn-lg" do %>
+        ♥ <%= @log.favorites.count %> いいね
       <% end %>
-    </p>
     <% else %>
-    <p>
-      <%= link_to log_favorites_path(@log), method: :post do %>
-        ♡<%= @log.favorites.count %> いいね
+      <%= link_to log_favorites_path(@log), method: :post, class: "btn btn-outline-danger btn-lg" do %>
+        ♡ <%= @log.favorites.count %> いいね
       <% end %>
-    </p>
-  <% end %>
-</div>
+    <% end %>
+  </div>
 
+</div>

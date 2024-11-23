@@ -1,73 +1,83 @@
-<div class="container">
+<div class="container my-5">
   <div class="row">
-    <div class="col-mg-2">
-      <h4 class="font-weight-bold my-4 bg-light">ユーザー編集</h4>
+    <div class="col">
+    <h4 class="font-weight-bold text-center bg-light py-2">ユーザー編集</h4>
     </div>
   </div>
 
+  <!-- エラーメッセージ表示 -->
   <% if @user.errors.any? %>
-    <%= @user.errors.count %>件のエラーが発生しました
-    <ul>
-      <% @user.errors.full_messages.each do |message| %>
-        <li><%= message %></li>
-      <% end %>
-    </ul>
+    <div class="alert alert-danger">
+      <strong><%= @user.errors.count %>件のエラーが発生しました</strong>
+      <ul class="mt-2">
+        <% @user.errors.full_messages.each do |message| %>
+          <li><%= message %></li>
+        <% end %>
+      </ul>
+    </div>
   <% end %>
 
   <div class="row">
-    <div class="col">
+    <div class="col-md-8 offset-md-2">
 
-      <%= form_with model: @user, url: user_path(@user.id) do |f| %>
+      <%= form_with model: @user, url: user_path(@user.id), class: "bg-light p-4 rounded shadow-sm" do |f| %>
 
-        <div class="field">
-          <%= f.label :name, "名前" %><br />
-          <%= f.text_field :name, autofocus: true, autocomplete: "name" %>
+        <!-- 名前 -->
+        <div class="form-group">
+          <%= f.label :name, "名前", class: "font-weight-bold" %>
+          <%= f.text_field :name, autofocus: true, class: "form-control", placeholder: "名前を入力してください" %>
         </div>
-        <div class="field">
-          <%= f.label :age, "年齢" %><br />
-          <%= f.text_field :age, autofocus: true, autocomplete: "age" %>
+
+        <!-- 年齢 -->
+        <div class="form-group">
+          <%= f.label :age, "年齢", class: "font-weight-bold" %>
+          <%= f.number_field :age, class: "form-control", placeholder: "年齢を入力してください" %>
         </div>
-        <td>性別</td>
-        <td>
+
+        <!-- 性別 -->
+        <div class="form-group">
+          <%= f.label :gender, "性別", class: "font-weight-bold" %><br>
           <div class="custom-control custom-radio custom-control-inline">
-            <%= f.radio_button :gender, :true %>
-            <%= f.label :gender, '男性', for: 'is_active-on-sale' %>
+            <%= f.radio_button :gender, true, id: "gender_male", class: "custom-control-input" %>
+            <%= f.label :gender, "男性", class: "custom-control-label", for: "gender_male" %>
           </div>
           <div class="custom-control custom-radio custom-control-inline">
-            <%= f.radio_button :gender, :false %>
-            <%= f.label :gender, '女性', for: 'is_active-off-sale' %>
+            <%= f.radio_button :gender, false, id: "gender_female", class: "custom-control-input" %>
+            <%= f.label :gender, "女性", class: "custom-control-label", for: "gender_female" %>
           </div>
-        </td>
-
-        <div class="field">
-          <%= f.label :email, "メールアドレス" %><br />
-          <%= f.email_field :email, autofocus: true, autocomplete: "email" %>
         </div>
 
-        <div class="field">
-          <%= f.label :password, "パスワード" %>
+        <!-- メールアドレス -->
+        <div class="form-group">
+          <%= f.label :email, "メールアドレス", class: "font-weight-bold" %>
+          <%= f.email_field :email, autofocus: true, class: "form-control", placeholder: "メールアドレスを入力してください" %>
+        </div>
+
+        <!-- パスワード -->
+        <div class="form-group">
+          <%= f.label :password, "パスワード", class: "font-weight-bold" %>
           <% if @minimum_password_length %>
-            <em>(<%= @minimum_password_length %> characters minimum)</em>
-          <% end %><br />
-          <%= f.password_field :password, autocomplete: "new-password" %>
+            <small class="text-muted">(最小 <%= @minimum_password_length %> 文字以上)</small>
+          <% end %>
+          <%= f.password_field :password, autocomplete: "new-password", class: "form-control", placeholder: "新しいパスワード" %>
         </div>
 
-        <div class="field">
-          <%= f.label :password_confirmation, "パスワード確認" %><br />
-          <%= f.password_field :password_confirmation, autocomplete: "new-password" %>
+        <!-- パスワード確認 -->
+        <div class="form-group">
+          <%= f.label :password_confirmation, "パスワード確認", class: "font-weight-bold" %>
+          <%= f.password_field :password_confirmation, autocomplete: "new-password", class: "form-control", placeholder: "パスワードを再入力してください" %>
         </div>
 
-        <% if @user == current_user %>
-          <%= f.submit '変更を保存',class: "btn btn-success" %>
-        <% end %>
-        <% if @user == current_user %>
-          <%= link_to "退会する", users_unsubscribe_path, class:"btn btn-danger" %>
-        <% end %>
+          <% if @user == current_user %>
+            <div class="d-flex justify-content-center mt-4">
+              <%= f.submit '変更を保存', class: "btn btn-success btn-lg px-5 py-3 mr-2" %>
+              <%= link_to "退会する", users_unsubscribe_path, class: "btn btn-danger btn-lg px-5 py-3" %>
+            </div>
+          <% end %>
 
       <% end %>
 
     </div>
   </div>
 </div>
-
 

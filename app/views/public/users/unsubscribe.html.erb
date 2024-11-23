@@ -1,18 +1,22 @@
-<div class="container-fluid my-5">
+<div class="container my-5">
   <div class="row justify-content-center">
-    <h3>本当に退会しますか？</h3>
-  </div>
-  <div class="row justify-content-center">
-    <div class="col text-center">
-      <P>
+    <div class="col-md-8 text-center">
+      <h3 class="font-weight-bold mb-4">本当に退会しますか？</h3>
+      <p class="lead text-muted">
         退会すると、会員登録情報や<br>
         これまでのログ履歴が閲覧できなくなります。<br>
         退会する場合は、「退会する」をクリックしてください。
-      </P>
+      </p>
     </div>
   </div>
-  <div class="text-center">
-    <%= link_to '退会しない', user_path(@user.id), class:"btn btn-sm btn-primary m-1" %>
-    <%= link_to '退会する', users_withdraw_path, method: :patch, data: { confirm: '本当に退会しますか？' }, class: "btn btn-sm btn-danger" %>
+
+  <div class="row justify-content-center">
+    <div class="col-md-8 text-center">
+      <!-- 退会しないボタンと退会するボタン -->
+      <div class="d-flex justify-content-center">
+        <%= link_to '退会しない', user_path(@user.id), class: "btn btn-primary btn-lg px-4 py-2 m-2" %>
+        <%= link_to '退会する', users_withdraw_path, method: :patch, data: { confirm: '本当に退会しますか？' }, class: "btn btn-danger btn-lg px-4 py-2 m-2" %>
+      </div>
+    </div>
   </div>
 </div>

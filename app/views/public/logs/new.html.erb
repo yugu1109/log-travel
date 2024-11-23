@@ -1,95 +1,102 @@
-<div class="container">
+<div class="container mt-5">
   <div class="row">
-    <div class="col-mg-2">
-      <h4 class="font-weight-bold my-4 bg-light">ログ投稿</h4>
+    <div class="col-md-12 text-center">
+    <h4 class="font-weight-bold text-center bg-light py-2">ログ投稿</h4>
     </div>
   </div>
 
   <% if @log.errors.any? %>
-    <%= @log.errors.count %>件のエラーが発生しました
-    <ul>
-      <% @log.errors.full_messages.each do |message| %>
-        <li><%= message %></li>
-      <% end %>
-    </ul>
+    <div class="alert alert-danger">
+      <strong><%= @log.errors.count %>件のエラーが発生しました</strong>
+      <ul class="mb-0">
+        <% @log.errors.full_messages.each do |message| %>
+          <li><%= message %></li>
+        <% end %>
+      </ul>
+    </div>
   <% end %>
 
-  <div class="row">
-    <div class="col">
+  <div class="row justify-content-center">
+    <div class="col-md-8">
 
-      <%= form_with model: @log, url: logs_path do |f| %>
+      <%= form_with model: @log, url: logs_path, html: { class: 'needs-validation' } do |f| %>
+        <div class="card shadow-sm">
+          <div class="card-body">
 
-        <table class='mx-auto'>
-          <tr>
-            <td>旅行画像</td>
-            <td><%= f.file_field :image, accept: "image/*" %></td>
-          </tr>
-          <tr>
-            <td>タイトル</td>
-            <td><%= f.text_field :title %></td>
-          </tr>
-          <tr>
-            <td>タグ</td>
-            <td><%= f.text_field :tag_name, class: 'form-control log_tag_name' %></td>
-          </tr>
-          <tr>
-            <td>旅行先</td>
-            <td><%= f.text_field :location %></td>
-          </tr>
-          <tr>
-            <td>旅行日</td>
-            <td><%= f.text_field :date %></td>
-          </tr>
-          <tr>
-            <td class="font-weight-bold">物価</td>
-            <td><%= f.select :price, Log.prices.keys.map {|k| [I18n.t("enums.log.price.#{k}"), k]} %></td>
-          </tr>
-          <tr>
-            <td class="font-weight-bold">治安</td>
-            <td><%= f.select :public_order, Log.public_orders.keys.map {|k| [I18n.t("enums.log.public_order.#{k}"), k]} %></td>
-          </tr>
-          <tr>
-            <td class="font-weight-bold">食事</td>
-            <td><%= f.select :meal, Log.meals.keys.map {|k| [I18n.t("enums.log.meal.#{k}"), k]} %></td>
-          </tr>
-          <tr>
-            <td>内容</td>
-            <td><%= f.text_area :body %></td>
-          </tr>
-          <tr>
-            <td><%= f.label :評価 %></td>
-            <td><% if @log.id.nil? %>
-                  <div class="form-group" id="star">
-                    <%= f.hidden_field :rate, id: :review_star, class: 'form-control' %>
-                    <div id="post_raty"></div>
-                  </div>
-                  <script>
-                    $(document).on('turbolinks:load', function() {
-                      let elem = document.querySelector('#post_raty');
-                      if (elem == null) return;
-        
-                      elem.innerHTML = ""
-                      let opt = {  
-                        starOn: "<%= asset_path('star-on.png') %>",
-                        starOff: "<%= asset_path('star-off.png') %>",
-                        starHalf: "<%= asset_path('star-half.png') %>",
-                        scoreName: 'log[rate]',
-                      };
-                      raty(elem, opt);
-                     });
-                  </script>
-                <% else %>
-                  <div class="form-group">
-                    <%= render "static_rate", log: @log %>
-                  </div>
-                <% end %>
-            </td>
-          </tr>
-       
-        </table>
+            <table class="table table-bordered">
+              <tr>
+                <th class="align-middle bg-light">旅行画像</th>
+                <td><%= f.file_field :image, accept: "image/*", class: 'form-control' %></td>
+              </tr>
+              <tr>
+                <th class="align-middle bg-light">タイトル</th>
+                <td><%= f.text_field :title, class: 'form-control' %></td>
+              </tr>
+              <tr>
+                <th class="align-middle bg-light">タグ</th>
+                <td><%= f.text_field :tag_name, class: 'form-control log_tag_name' %></td>
+              </tr>
+              <tr>
+                <th class="align-middle bg-light">旅行先</th>
+                <td><%= f.text_field :location, class: 'form-control' %></td>
+              </tr>
+              <tr>
+                <th class="align-middle bg-light">旅行日</th>
+                <td><%= f.text_field :date, class: 'form-control' %></td>
+              </tr>
+              <tr>
+                <th class="font-weight-bold bg-light">物価</th>
+                <td><%= f.select :price, Log.prices.keys.map {|k| [I18n.t("enums.log.price.#{k}"), k]}, { class: 'form-control' } %></td>
+              </tr>
+              <tr>
+                <th class="font-weight-bold bg-light">治安</th>
+                <td><%= f.select :public_order, Log.public_orders.keys.map {|k| [I18n.t("enums.log.public_order.#{k}"), k]}, { class: 'form-control' } %></td>
+              </tr>
+              <tr>
+                <th class="font-weight-bold bg-light">食事</th>
+                <td><%= f.select :meal, Log.meals.keys.map {|k| [I18n.t("enums.log.meal.#{k}"), k]}, { class: 'form-control' } %></td>
+              </tr>
+              <tr>
+                <th class="align-middle bg-light">内容</th>
+                <td><%= f.text_area :body, class: 'form-control' %></td>
+              </tr>
+              <tr>
+                <th class="font-weight-bold bg-light">評価</th>
+                <td>
+                  <% if @log.id.nil? %>
+                    <div class="form-group" id="star">
+                      <%= f.hidden_field :rate, id: :review_star, class: 'form-control' %>
+                      <div id="post_raty"></div>
+                    </div>
+                    <script>
+                      $(document).on('turbolinks:load', function() {
+                        let elem = document.querySelector('#post_raty');
+                        if (elem == null) return;
+                        elem.innerHTML = ""
+                        let opt = {
+                          starOn: "<%= asset_path('star-on.png') %>",
+                          starOff: "<%= asset_path('star-off.png') %>",
+                          starHalf: "<%= asset_path('star-half.png') %>",
+                          scoreName: 'log[rate]',
+                        };
+                        raty(elem, opt);
+                      });
+                    </script>
+                  <% else %>
+                    <div class="form-group">
+                      <%= render "static_rate", log: @log %>
+                    </div>
+                  <% end %>
+                </td>
+              </tr>
+            </table>
 
-        <div class="text-center"><%= f.submit '新規登録',class: "btn btn-success" %></div>
+            <div class="text-center mt-4">
+              <%= f.submit '新規登録', class: "btn btn-success btn-lg px-5 py-3" %>
+            </div>
 
+          </div>
+        </div>
       <% end %>
 
     </div>

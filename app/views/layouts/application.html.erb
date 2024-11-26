@@ -16,9 +16,19 @@
     <header class="border-bottom">
       <div class="container-fluid">
         <div class="row">
+ 
           <div class="col-md-4 text-center d-flex align-items-center">
-            <a class="navbar-brand" href="/" ><span>LogTravel</span></a>
+            <a class="navbar-brand" href="/" style="font-family: 'Roboto', sans-serif; font-size: 2rem; font-weight: bold; color: #0066cc; letter-spacing: 2px; transition: transform 0.3s;">
+              <i class="bi bi-airplane-engines" style="font-size: 2.5rem; color: #ff5733;"></i>
+              <span class="ml-2">LogTravel</span>
+            </a>
           </div>
+          <style>
+            .navbar-brand:hover {
+              transform: scale(1.1); /* ホバー時にロゴを少し拡大 */
+            }
+          </style>
+
           <div class="col-md-2 text-center d-flex align-items-center">
             <% if user_signed_in? %>
               <strong class="w-100">ようこそ、<%= current_user.name%>さん!</strong>
@@ -62,5 +72,13 @@
       </div>
       <%= yield %>
     </main>
+
+    <div class="mt-5"></div>
+    <footer class="bg-dark text-white py-4 mt-auto">
+      <div class="mt-3 text-center">
+        <p>&copy; <%= Time.now.year %> LogTravel. All rights reserved.</p>
+      </div>
+    </footer>
+
   </body>
 </html>

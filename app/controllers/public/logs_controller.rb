@@ -43,6 +43,8 @@ class Public::LogsController < ApplicationController
       redirect_to logs_path, alert: 'ログが見つかりませんでした'
     end
     if @log.update(log_params)
+       tag_list = params[:log][:tag_name].split(',') 
+       @log.save_tags(tag_list)
       redirect_to log_path(@log.id), notice: 'ログが更新されました'
     else
       render :edit

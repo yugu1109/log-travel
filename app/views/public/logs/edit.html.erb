@@ -34,7 +34,7 @@
               </tr>
               <tr>
                 <th class="align-middle bg-light">タグ</th>
-                <td><%= f.text_field :tag_name, class: 'form-control log_tag_name' %></td>
+                <td><%= f.text_field :tag_name, class: 'form-control log_tag_name', value: @log.tags.map(&:name).join(', ') %></td>
               </tr>
               <tr>
                 <th class="align-middle bg-light">旅行先</th>

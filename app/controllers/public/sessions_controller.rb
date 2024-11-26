@@ -24,13 +24,26 @@ class Public::SessionsController < Devise::SessionsController
     user_path(current_user.id)
   end
 
+  def guest_sign_in
+    guest_user = User.find_or_create_by(email: 'guest@example.com',name: "guest_user",age: "25") do |user|
+      user.password = SecureRandom.hex(10) 
+      user.password_confirmation = user.password
+    end
+
+    sign_in guest_user
+    redirect_to logs_path, notice: 'ゲストユーザーとしてログインしました'
+  end
+
   private
 
   def user_state
+    return if current_user&.email == 'guest@example.com'
+
     user = User.find_by(email: params[:user][:email])
     return if user.nil?
     return unless user.valid_password?(params[:user][:password])
   end
+
 
   # If you have extra params to permit, append them to the sanitizer.
   # def configure_sign_in_params

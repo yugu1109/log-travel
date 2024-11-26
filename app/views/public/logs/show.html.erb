@@ -22,6 +22,10 @@
             <td><%= @log.title %></td>
           </tr>
           <tr>
+            <th>タグ</th>
+            <td><%= @log.tags.map(&:name).join(', ') if @log.tags.any? %></td>
+          </tr>
+          <tr>
             <th>旅行先</th>
             <td><%= @log.location %></td>
           </tr>

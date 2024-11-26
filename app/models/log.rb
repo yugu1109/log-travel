@@ -20,6 +20,10 @@ class Log < ApplicationRecord
   enum public_order: { great_public: 0, good_public: 1, ordinarily_public: 2, bad_public: 3, worst_public: 4 }
   enum meal: { great_meal: 0, good_meal: 1, ordinarily_meal: 2, bad_meal: 3, worst_meal: 4 }
 
+  def get_image
+    image.variant(resize_to_limit: [500, 500]).processed
+  end
+
   def favorited_by?(user)
     favorites.where(user_id: user.id).exists?
   end

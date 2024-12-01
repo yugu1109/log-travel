@@ -10,8 +10,12 @@ class Public::LogsController < ApplicationController
     @log = Log.new(log_params)
     @log.user_id = current_user.id
     tag_list = params[:log][:tag_name].split(',')
+    tags = Vision.get_image_data(log_params[:image])
     if @log.save
       @log.save_tags(tag_list)
+      tags.each do |tag|
+        @log.tags.create(name: tag)
+      end
       redirect_to log_path(@log.id)
     else
       render :new
